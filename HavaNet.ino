@@ -8,8 +8,8 @@
 #include <FS.h>
 
 //   WiFi configuration
-const char* ssid = "Shahid Avini";
-const char* password = "avini1111";
+const char* ssid = "SSID";
+const char* password = "PASSWORF";
 
 // Pins
 #define SDA_PIN D14
@@ -157,18 +157,18 @@ server.on("/", []() {
   float error = rssi - predicted_rssi;
   String quality, icon, color;
 
-  if (abs(error) <= 7) {
-    quality = "کیفیت سیگنال خوب است";
+  if (error > 0 ) {
+    quality = "Signal quality is good";
     icon = "✅";
-    color = "#c8e6c9";  // سبز
-  } else if (abs(error) <= 15) {
-    quality = "کیفیت سیگنال متوسط است";
+    color = "#c8e6c9";  // Green
+  } else if (error = 0) {
+    quality = "Signal quality is moderate";
     icon = "⚠️";
-    color = "#fff9c4";  // زرد
+    color = "#fff9c4";  // Yellow
   } else {
-    quality = "کیفیت سیگنال ضعیف است";
+    quality = "Signal quality is poor";
     icon = "❌";
-    color = "#ffcdd2";  // قرمز
+    color = "#ffcdd2";  // Red
   }
 
   int signalPercent = constrain(map(rssi, -100, -50, 0, 100), 0, 100);
@@ -177,17 +177,17 @@ server.on("/", []() {
 
   String html = R"rawliteral(
   <!DOCTYPE html>
-  <html lang='fa'>
+  <html lang='en'>
   <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv='refresh' content='30'>
-    <title>📊هوانت</title>
-    <link href='https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap' rel='stylesheet'>
+    <title>📊Havant</title>
+    <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap' rel='stylesheet'>
     <style>
       body {
-        font-family: 'Vazirmatn', sans-serif;
-        direction: rtl;
+        font-family: 'Roboto', sans-serif;
+        direction: ltr;
         background-color: #f1f1f1;
         margin: 0;
         padding: 0;
@@ -259,27 +259,27 @@ server.on("/", []() {
   </head>
   <body>
     <div class="container">
-      <h1>📊هوانت </h1>
+      <h1>📊Havant</h1>
       <div class="data-section">
-        <div class="data-item"><span class="label">🌡️ دما</span><span class="value">)rawliteral" + String(temperature, 1) + R"rawliteral( °C</span></div>
-        <div class="data-item"><span class="label">💧 رطوبت</span><span class="value">)rawliteral" + String(humidity, 1) + R"rawliteral( ٪</span></div>
-        <div class="data-item"><span class="label">🌬️ فشار</span><span class="value">)rawliteral" + String(pressure, 1) + R"rawliteral( hPa</span></div>
-        <div class="data-item"><span class="label">🧪 گاز</span><span class="value">)rawliteral" + String(gas, 1) + R"rawliteral( ppm</span></div>
-        <div class="data-item"><span class="label">📶 سیگنال</span><span class="value">)rawliteral" + String(rssi) + R"rawliteral( dBm</span></div>
+        <div class="data-item"><span class="label">🌡️ Temperature</span><span class="value">)rawliteral" + String(temperature, 1) + R"rawliteral( °C</span></div>
+        <div class="data-item"><span class="label">💧 Humidity</span><span class="value">)rawliteral" + String(humidity, 1) + R"rawliteral( %</span></div>
+        <div class="data-item"><span class="label">🌬️ Pressure</span><span class="value">)rawliteral" + String(pressure, 1) + R"rawliteral( hPa</span></div>
+        <div class="data-item"><span class="label">🧪 Gas</span><span class="value">)rawliteral" + String(gas, 1) + R"rawliteral( ppm</span></div>
+        <div class="data-item"><span class="label">📶 Signal</span><span class="value">)rawliteral" + String(rssi) + R"rawliteral( dBm</span></div>
         <div class="progress-container"><div class="progress-bar"></div></div>
-        <div class="data-item"><span class="label">🤖 مقدار پیش‌بینی شده</span><span class="value">)rawliteral" + String(predicted_rssi, 1) + R"rawliteral( dBm</span></div>
-        <div class="data-item"><span class="label">🔁 اختلاف</span><span class="value">)rawliteral" + String(error, 1) + R"rawliteral( dBm</span></div>
+        <div class="data-item"><span class="label">🤖 Predicted RSSI</span><span class="value">)rawliteral" + String(predicted_rssi, 1) + R"rawliteral( dBm</span></div>
+        <div class="data-item"><span class="label">🔁 Error</span><span class="value">)rawliteral" + String(error, 1) + R"rawliteral( dBm</span></div>
       </div>
   )rawliteral";
 
   html += statusDiv;
 
   html += R"rawliteral(
-      <footer>آخرین بروزرسانی: <span id="time">در حال بارگذاری...</span></footer>
+      <footer>Last updated at: <span id="time">Loading...</span></footer>
     </div>
     <script>
       const now = new Date();
-      const timeString = now.toLocaleTimeString('fa-IR');
+      const timeString = now.toLocaleTimeString('en-US');
       document.getElementById('time').textContent = timeString;
     </script>
   </body>
@@ -299,3 +299,4 @@ server.on("/", []() {
 void loop() {
   server.handleClient();   
 }
+
