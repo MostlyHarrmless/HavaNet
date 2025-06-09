@@ -26,6 +26,12 @@ Designed for embedded applications, **HavaNet** logs data locally, visualizes it
 | MQ135            | Air Quality Sensor             |
 
 ---
+<p align="center">
+  <img src="data/SchematicMap" alt="نمودار شبکه" width="1000"/>
+</p>
+
+
+---
 
 ## 🧠 Machine Learning Model
 
